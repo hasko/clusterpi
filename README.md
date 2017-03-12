@@ -8,3 +8,6 @@ Stuff to remember when setting up the Raspbian image:
 * Resize the file system with `sudo resize2fs /dev/mmcblk0p2`.
 * Install XFS tools: `apt-get install xfsprogs`
 * `mkfs.xfs -i size=512 /dev/mmcblk0p3` must be done manually because it's dangerous.
+* Authorize `ssh` from Ansible master.
+  * `ssh b@B mkdir -p .ssh`
+  * `cat .ssh/id_rsa.pub | ssh b@B 'cat >> .ssh/authorized_keys'`
