@@ -1,0 +1,34 @@
+---
+- hosts: clusterpis
+  tasks:
+    - name: Update apt cache
+      sudo: yes
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: Install XFS
+      sudo: yes
+      apt: name=xfsprogs
+    - name: Create mount point /data/brick1
+      sudo: yes
+      file: path=/data/brick1 state=directory
+#    - name: Update fstab
+#      sudo: yes
+#      lineinfile:
+#        dest: /etc/fstab
+#        regexp: '^\s*\/dev\/mmcblk0p3'
+#        line: '/dev/mmcblk0p3	/data/brick1	xfs	defaults	0	3'
+    - name: Mount brick
+      sudo: yes
+      mount:
+        src: /dev/mmcblk0p3
+        name: /data/brick1
+        fstype: xfs
+        opts: defaults
+        dump: 0
+        passno: 3
+        state: present
+    - name: Install GlusterFS
+      sudo: yes
+      apt: name=glusterfs-server
+
